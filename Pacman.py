@@ -4,6 +4,10 @@ from vectors import Vector2D
 
 class Pacman(object):
 
+	#xcollide = axis_overlap(x, width, x2, width2)
+	#ycollide = axis_overlap(y, height, y2, height2)
+	#xycollide = xcollide & ycollide
+
 	def __init__(self, position):
 		self.position = Vector2D(position)
 
@@ -17,45 +21,47 @@ class Pacman(object):
 			self.position.x = self.position.x -3
 		elif key_pressed[K_RIGHT]:
 			self.position.x = self.position.x +3
+
+	def axis_overlap(p1, length1, p2, length2):
+    		collided = False
+    		if p1 < p2:
+        		if p2+length2-p1 < length1+length2:
+            		collided = True
+    		elif p1 > p2:
+        		if p1+length1-p2 < length1+length2:
+            		collided = True
+    		elif p1 == p2:
+        		collided = True
+    		return collided
 			
 	def render(self, screen):
-		xcollide = False
-		ycollide = False
-		xycollide = False
-		x2 = 50
-		y2 = 50
-		width2 = 150
-		height2 = 100
+		
+		xRed = 50
+		yRed = 50
+		widthRed = 150
+		heightRed = 100
+		xBlue = 400
+		yBlue = 300
+		widthBlue = 60
+		heightBlue = 80
 		x = self.position.x
 		y = self.position.y
 		width = 16
 		height = 16
-		xcollide = False
-		ycollide = False
-		xycollide = False
-		if x < x2:
-		    if x2+width2-x < width+width2:
-		        xcollide = True
-		elif x > x2:
-		    if x+width-x2 < width+width2:
-		        xcollide = True
-		elif x == x2:
-		    xcollide = True
+		xCollideRed = self.axis_overlap(xRed, widthRed, x, 16)
+		yCollideRed = self.axis_overlap(yRed, widthRed, y, 16)
+		xCollideBlue = self.axis_overlap(xBlue, widthBlue, x, 16)
+		yCollideBlue = self.axis_overlap(yBlue, widthBlue, x, 16)
+	
 
-		if xcollide:
-		    if y < y2:
-		        if y2+height2-y < height+height2:
-		            ycollide = True
-		    elif y > y2:
-		        if y+height-y2 < height+height2:
-		            ycollide = True
-		    elif y == y2:
-		        ycollide = True
 
-		xycollide = xcollide & ycollide
-		if xycollide:
-		    pygame.draw.rect(screen, (100,100,100),[x2,y2,width2,height2])
+		if xCollideRed and yCollideRed:
+		    pygame.draw.rect(screen, (100,100,100),[xRed,yRed,widthRed,heightRed])
 		else:
-		    pygame.draw.rect(screen, (255,0,0),[x2,y2,width2,height2])
-		pygame.draw.rect(screen, (0,0,255),[400,300,60,80])
+		    pygame.draw.rect(screen, (255,0,0),[xRed,yRed,widthRed,heightRed])
+		if xCollideBlue and yCollideBlue:
+			pygame.draw.rect(screen, (100,100,100),[xBlue,yBlue,widthBlue,heightBlue])
+		else:
+			pygame.draw.rect(screen, (0,0,225),[xBlue,yBlue,widthBlue,heightBlue])
+		
 		pygame.draw.circle(screen, (255,255,0), self.position.toTuple(),16)
