@@ -22,14 +22,14 @@ class Pacman(object):
 		elif key_pressed[K_RIGHT]:
 			self.position.x = self.position.x +3
 
-	def axis_overlap(p1, length1, p2, length2):
+	def axis_overlap(self, p1, length1, p2, length2):
     		collided = False
     		if p1 < p2:
         		if p2+length2-p1 < length1+length2:
-            		collided = True
+            			collided = True
     		elif p1 > p2:
         		if p1+length1-p2 < length1+length2:
-            		collided = True
+            			collided = True
     		elif p1 == p2:
         		collided = True
     		return collided
@@ -48,10 +48,10 @@ class Pacman(object):
 		y = self.position.y
 		width = 16
 		height = 16
-		xCollideRed = self.axis_overlap(xRed, widthRed, x, 16)
-		yCollideRed = self.axis_overlap(yRed, widthRed, y, 16)
-		xCollideBlue = self.axis_overlap(xBlue, widthBlue, x, 16)
-		yCollideBlue = self.axis_overlap(yBlue, widthBlue, x, 16)
+		xCollideRed = self.axis_overlap(x, 16, xRed, widthRed)
+		yCollideRed = self.axis_overlap(y, 16, yRed, heightRed)
+		xCollideBlue = self.axis_overlap(x, 16, xBlue, widthBlue)
+		yCollideBlue = self.axis_overlap(y, 16, yBlue, heightBlue)
 	
 
 
