@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
-from Pacman import Pacman
+from PacMan2 import PacMan2
+from Tile import Tile
 
 #screen = pygame.display.set_mode((200, 200))
 
@@ -11,7 +12,8 @@ clock = pygame.time.Clock()
 x,y = (300,200)
 background = pygame.surface.Surface(SCREENSIZE).convert()
 background.fill((0,0,0))
-pacman = Pacman((160,160))
+pacman = PacMan2((50,50), [500,200])
+tile = Tile((150,150), [150,100])
 
 running = 1
 
@@ -22,9 +24,11 @@ while running:
 		if event.type == QUIT:
 			running = 0
 	pacman.move()
-	
+	pacman.collide(tile)
 	screen.blit(background, (0, 0))
-	pacman.render(screen)
+	tile.draw(screen)
+	pacman.draw(screen)
+	#pacman.render(screen)
 	pygame.display.update()
 	
 	#event = pygame.event.poll()
